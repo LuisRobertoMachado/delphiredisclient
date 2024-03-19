@@ -157,6 +157,7 @@ type
       aContinueOnTimeoutCallback: TRedisTimeoutCallback = nil;
       aAfterSubscribe: TRedisAction = nil);
     function PUBLISH(const AChannel: string; AMessage: string): Integer;
+    function PUBSUB(const ASubCommand: string; AArguments: array of string): TRedisArray;
     // sets
     function SADD(const aKey, aValue: TBytes): Integer; overload;
     function SADD(const aKey, aValue: string): Integer; overload;
@@ -1433,6 +1434,14 @@ begin
   FNextCMD.Add(AMessage);
   FTCPLibInstance.SendCmd(FNextCMD);
   Result := ParseIntegerResponse(FValidResponse);
+end;
+
+function TRedisClient.PUBSUB(const ASubCommand: string; AArguments: array of string): TRedisArray;
+begin
+  FNextCMD := GetCmdList('PUBSUB');
+  FNextCMD.Add(ASubCommand);
+  FNextCMD.AddRange(AArguments);
+  Result := ExecuteAndGetArrayNULL(FNextCMD);
 end;
 
 function TRedisClient.RANDOMKEY: TRedisString;

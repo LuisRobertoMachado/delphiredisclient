@@ -246,6 +246,7 @@ type
       aContinueOnTimeoutCallback: TRedisTimeoutCallback = nil;
       aAfterSubscribe: TRedisAction = nil);
     function PUBLISH(const aChannel: string; aMessage: string): Integer;
+    function PUBSUB(const ASubCommand: string; AArguments: array of string): TRedisArray;
 
     // transactions
     function MULTI(aRedisTansactionProc: TRedisTransactionProc): TRedisArray; overload;
